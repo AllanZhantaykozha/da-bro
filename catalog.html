@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Каталог — DA BRO · мужская одежда и обувь</title>
+  <meta name="description" content="Каталог DA BRO: верхняя одежда, костюмы, рубашки, трикотаж, брюки, обувь и аксессуары.">
+  <meta name="theme-color" content="#f4f0e8">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230d0d0c'/><text x='50%' y='58%' text-anchor='middle' font-family='Arial' font-weight='700' font-size='26' fill='%23f4f0e8' dominant-baseline='middle'>DB</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="curtain" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="logo" aria-label="DA BRO — на главную">DA BRO<small>MENSWEAR</small></a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="index.html">О нас</a>
+        <a href="catalog.html" class="is-active">Каталог</a>
+        <a href="index.html#stores">Бутики</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <div class="header__actions">
+        <a href="#" class="header__action" data-bag aria-label="Корзина">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="label">Корзина</span><span class="badge bag-count">0</span>
+        </a>
+        <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" aria-label="Мобильное меню">
+    <a href="index.html">О нас</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="index.html#stores">Бутики</a>
+    <a href="#contacts" onclick="document.querySelector('.burger').click()">Контакты</a>
+    <div class="mobile-menu__foot"><span>Астана</span><span>Уральск</span></div>
+  </div>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Хлебные крошки"><a href="index.html">DA BRO</a><span>/</span><span>Каталог</span></nav>
+        <div class="page-hero__row">
+          <h1 class="display" data-split>
+            <span class="split-line"><span>Каталог</span></span>
+            <span class="split-line"><span><em id="page-title-cat">Вся коллекция</em></span></span>
+          </h1>
+          <p class="page-hero__meta" data-reveal>Осень — зима 2026. Все модели есть в бутиках Астаны и Уральска — забронируйте вещь онлайн и примерьте в удобное время.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="container toolbar__inner">
+        <div class="filters" id="filters" role="toolbar" aria-label="Категории"></div>
+        <div class="toolbar__right">
+          <span class="count" id="count"></span>
+          <label class="select">
+            <span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Сортировка</span>
+            <select id="sort">
+              <option value="default">По умолчанию</option>
+              <option value="new">Сначала новинки</option>
+              <option value="asc">Цена: по возрастанию</option>
+              <option value="desc">Цена: по убыванию</option>
+            </select>
+          </label>
+          <div class="view-toggle">
+            <button class="is-active" data-view="grid" aria-label="Мелкая сетка"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="4" height="4"/><rect x="10" y="3" width="4" height="4"/><rect x="17" y="3" width="4" height="4"/><rect x="3" y="10" width="4" height="4"/><rect x="10" y="10" width="4" height="4"/><rect x="17" y="10" width="4" height="4"/><rect x="3" y="17" width="4" height="4"/><rect x="10" y="17" width="4" height="4"/><rect x="17" y="17" width="4" height="4"/></svg></button>
+            <button data-view="large" aria-label="Крупная сетка"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="grid" id="grid" aria-live="polite"></div>
+    </div>
+
+    <section class="section section--dark" style="padding:clamp(70px,9vw,120px) 0">
+      <div class="container" style="display:flex;justify-content:space-between;align-items:end;gap:32px;flex-wrap:wrap">
+        <div>
+          <span class="eyebrow">Персональный стилист</span>
+          <h2 class="h2" data-split style="margin-top:22px">
+            <span class="split-line"><span>Не уверены</span></span>
+            <span class="split-line"><span>с <em style="color:var(--sand)">размером?</em></span></span>
+          </h2>
+        </div>
+        <div style="max-width:420px">
+          <p class="muted" style="margin-bottom:28px">Напишите нам — стилист подберёт размер, соберёт образ и отложит вещи в ближайшем бутике.</p>
+          <a href="#" class="btn btn--light" data-magnetic onclick="event.preventDefault();dabroToast('В рабочей версии откроется WhatsApp')">Написать в WhatsApp
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16M14 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contacts" style="border-top:1px solid var(--line-light)">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <h4>Будьте в курсе</h4>
+          <p style="font-family:var(--serif);font-size:26px;line-height:1.25;max-width:20ch">Новинки, закрытые распродажи и приглашения в бутики.</p>
+          <form class="subscribe"><input type="email" placeholder="Ваш e-mail" required aria-label="E-mail"><button type="submit">Подписаться</button></form>
+        </div>
+        <div><h4>Магазин</h4><ul><li><a href="catalog.html?cat=outerwear">Верхняя одежда</a></li><li><a href="catalog.html?cat=suits">Костюмы</a></li><li><a href="catalog.html?cat=knit">Трикотаж</a></li><li><a href="catalog.html?cat=shoes">Обувь</a></li></ul></div>
+        <div><h4>Бутики</h4><ul><li>Астана — 3 бутика</li><li>Уральск — 1 бутик</li><li>Ежедневно 10:00 — 22:00</li></ul></div>
+        <div><h4>Связь</h4><ul><li><a href="#">Instagram</a></li><li><a href="#">WhatsApp</a></li><li><a href="#">Telegram</a></li><li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li></ul></div>
+      </div>
+      <div class="footer__mega" aria-hidden="true">DA BRO</div>
+      <div class="footer__bottom"><span>© 2026 DA BRO Menswear</span><span>Прототип сайта · данные — заглушки</span></div>
+    </div>
+  </footer>
+
+  <!-- Quick view -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="m-name">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box">
+      <button class="modal__close" data-close aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+      <div class="modal__media">
+        <img id="m-img" src="" alt="">
+        <div class="modal__thumbs" id="m-thumbs"></div>
+      </div>
+      <div class="modal__body">
+        <span class="card__brand" id="m-brand"></span>
+        <h2 class="modal__name" id="m-name"></h2>
+        <div class="modal__price" id="m-price"></div>
+        <p class="modal__desc" id="m-desc"></p>
+        <div class="opt-label"><span>Размер</span><a href="#" onclick="event.preventDefault();dabroToast('Таблица размеров появится в рабочей версии')">Таблица размеров</a></div>
+        <div class="sizes" id="m-sizes"></div>
+        <div class="modal__actions">
+          <button class="btn btn--solid" id="m-add">Добавить в корзину</button>
+          <button class="btn" id="m-wa">Забронировать примерку</button>
+        </div>
+        <div class="modal__note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>В наличии в бутиках Астаны и Уральска</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bag drawer -->
+  <div class="drawer" id="drawer">
+    <div class="drawer__backdrop" data-close-bag></div>
+    <aside class="drawer__panel" aria-label="Корзина">
+      <div class="drawer__head"><h3>Корзина</h3><button class="modal__close" style="position:static" data-close-bag aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+      <div class="drawer__items" id="bag-items"></div>
+      <div class="drawer__foot">
+        <div class="drawer__total"><span>Итого</span><b id="bag-total">0 ₸</b></div>
+        <button class="btn btn--solid" id="checkout">Оформить заказ</button>
+      </div>
+    </aside>
+  </div>
+
+  <button class="progress" aria-label="Наверх">
+    <svg class="ring" viewBox="0 0 54 54"><circle cx="27" cy="27" r="26"/></svg>
+    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20V4M6 10l6-6 6 6"/></svg>
+  </button>
+
+  <script src="js/main.js"></script>
+  <script src="js/catalog.js"></script>
+</body>
+</html>
