@@ -1,8 +1,8 @@
-/* DA BRO — catalog (prototype data) */
+/* DA BRO v2 — catalog (prototype data) */
 (() => {
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-  const u = id => `https://images.unsplash.com/photo-${id}?w=900&q=80&auto=format&fit=crop`;
+  const u = (id, w = 900) => `https://images.unsplash.com/photo-${id}?w=${w}&q=78&auto=format&fit=crop`;
 
   const CATS = {
     all: "Все",
@@ -40,163 +40,148 @@
   ];
 
   const fmt = n => n.toLocaleString("ru-RU").replace(/,/g, " ") + " ₸";
-  const grid = $("#grid"), count = $("#count");
+  const grid = $("#pgrid");
   const params = new URLSearchParams(location.search);
-  let state = { cat: CATS[params.get("cat")] ? params.get("cat") : "all", sort: "default" };
+  const state = { cat: CATS[params.get("cat")] ? params.get("cat") : "all", sort: "default" };
   let favs = [];
   try { favs = JSON.parse(localStorage.getItem("dabro-favs") || "[]"); } catch (e) {}
+  const count = k => k === "all" ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === k).length;
+  const imgTag = (id, cls, alt) => `<img class="${cls}" src="${u(id)}" alt="${alt}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'pc__ph',textContent:'DA BRO'}))">`;
 
-  const img = (id, cls, alt) => `<img class="${cls}" src="${u(id)}" alt="${alt}" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph',textContent:'DA BRO'}))">`;
-
-  /* filters */
-  const filters = $("#filters");
-  filters.innerHTML = Object.entries(CATS).map(([k, v]) => {
-    const n = k === "all" ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === k).length;
-    return `<button class="chip${k === state.cat ? " is-active" : ""}" data-cat="${k}">${v}<sup>${n}</sup></button>`;
-  }).join("");
-  filters.addEventListener("click", e => {
-    const b = e.target.closest(".chip"); if (!b) return;
-    state.cat = b.dataset.cat;
-    $$(".chip", filters).forEach(c => c.classList.toggle("is-active", c === b));
-    b.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    const url = new URL(location); state.cat === "all" ? url.searchParams.delete("cat") : url.searchParams.set("cat", state.cat);
+  /* ---------- filters (sidebar + mobile chips) ---------- */
+  $("#cats-list").innerHTML = Object.entries(CATS).map(([k, v]) => `<button data-cat="${k}">${v}<span>${count(k)}</span></button>`).join("");
+  $("#chips").innerHTML = Object.entries(CATS).map(([k, v]) => `<button data-cat="${k}">${v}</button>`).join("");
+  function setCat(k) {
+    state.cat = k;
+    $$("[data-cat]").forEach(b => b.classList.toggle("on", b.dataset.cat === k));
+    const url = new URL(location); k === "all" ? url.searchParams.delete("cat") : url.searchParams.set("cat", k);
     history.replaceState(null, "", url);
+    $("#cat-title").textContent = k === "all" ? "Каталог" : CATS[k];
     render();
+  }
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-cat]"); if (!b) return;
+    setCat(b.dataset.cat);
+    if (b.closest("#chips")) b.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    else scrollTo({ top: Math.min(scrollY, $(".shop").offsetTop - 100), behavior: "smooth" });
   });
-  $("#sort").addEventListener("change", e => { state.sort = e.target.value; render(); });
-  $$(".view-toggle button").forEach(b => b.addEventListener("click", () => {
-    $$(".view-toggle button").forEach(x => x.classList.toggle("is-active", x === b));
-    grid.classList.toggle("is-large", b.dataset.view === "large");
+  $$("[data-sort]").forEach(b => b.addEventListener("click", () => {
+    state.sort = b.dataset.sort;
+    $$("[data-sort]").forEach(x => x.classList.toggle("on", x === b));
+    render();
   }));
 
   function list() {
     let l = PRODUCTS.filter(p => state.cat === "all" || p.cat === state.cat);
     if (state.sort === "asc") l = [...l].sort((a, b) => a.price - b.price);
     if (state.sort === "desc") l = [...l].sort((a, b) => b.price - a.price);
-    if (state.sort === "new") l = [...l].sort((a, b) => (b.tag === "Новинка") - (a.tag === "Новинка"));
     return l;
   }
 
   function render() {
     const l = list();
-    count.textContent = `${l.length} ${plural(l.length, ["модель", "модели", "моделей"])}`;
-    $("#page-title-cat").textContent = state.cat === "all" ? "Вся коллекция" : CATS[state.cat];
-    grid.innerHTML = l.length ? l.map((p, i) => `
-      <article class="card" style="animation-delay:${Math.min(i, 8) * 0.06}s">
-        <div class="card__media" data-open="${p.id}" role="button" tabindex="0" aria-label="Быстрый просмотр: ${p.name}">
-          ${p.tag ? `<span class="card__tag${p.old ? " card__tag--sale" : ""}">${p.tag}</span>` : ""}
-          ${img(p.img[0], "main", p.name)}
-          ${p.img[1] ? img(p.img[1], "alt", "") : ""}
-          <button class="card__quick" data-open="${p.id}">Быстрый просмотр</button>
-        </div>
-        <button class="card__fav${favs.includes(p.id) ? " is-on" : ""}" data-fav="${p.id}" aria-label="В избранное">
-          <svg viewBox="0 0 24 24" stroke-width="1.4"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>
-        </button>
-        <div class="card__info">
-          <div>
-            <div class="card__brand">${p.brand}</div>
-            <h3 class="card__name">${p.name}</h3>
-            <div class="card__colors">${p.colors.map(c => `<i style="background:${C[c]}" title="${c}"></i>`).join("")}</div>
+    $("#cat-count").textContent = l.length;
+    grid.innerHTML = l.map((p, i) => `
+      <article class="pc" style="animation-delay:${Math.min(i, 9) * .05}s">
+        <div class="pc__media" data-open="${p.id}" role="button" tabindex="0" aria-label="Открыть: ${p.name}">
+          ${p.tag ? `<span class="pc__tag${p.old ? " sale" : ""}">${p.tag}</span>` : ""}
+          ${imgTag(p.img[0], "a", p.name)}
+          ${p.img[1] ? imgTag(p.img[1], "b", "") : ""}
+          <div class="pc__quick" data-stop>
+            <small>Быстро в корзину</small>
+            <div class="pc__sizes">${p.sizes.map(s => `<button data-quick="${p.id}" data-size="${s}" ${p.out.includes(s) ? "disabled" : ""}>${s}</button>`).join("")}</div>
           </div>
-          <div class="card__price">${fmt(p.price)}${p.old ? `<s>${fmt(p.old)}</s>` : ""}</div>
         </div>
-      </article>`).join("") : `<div class="empty"><p class="lead">В этой категории пока пусто</p></div>`;
+        <button class="pc__fav${favs.includes(p.id) ? " on" : ""}" data-fav="${p.id}" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></button>
+        <div class="pc__info">
+          <span class="pc__cat">${CATS[p.cat]}</span>
+          <h3 class="pc__name">${p.name}</h3>
+          <span class="pc__price">${fmt(p.price)}${p.old ? `<s>${fmt(p.old)}</s>` : ""}</span>
+          <span class="pc__dots">${p.colors.map(c => `<i style="background:${C[c]}"></i>`).join("")}</span>
+        </div>
+      </article>`).join("");
   }
-  const plural = (n, f) => f[(n % 10 === 1 && n % 100 !== 11) ? 0 : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? 1 : 2];
+
+  function addToBag(p, size) {
+    const items = bag.get();
+    const ex = items.find(i => i.id === p.id && i.size === size);
+    ex ? ex.qty++ : items.push({ id: p.id, size, qty: 1 });
+    bag.set(items);
+    toast(`${p.name} · ${size} — в корзине`);
+  }
 
   grid.addEventListener("click", e => {
-    const fav = e.target.closest("[data-fav]");
-    if (fav) {
-      const id = +fav.dataset.fav;
+    const q = e.target.closest("[data-quick]");
+    if (q) { e.stopPropagation(); addToBag(PRODUCTS.find(p => p.id === +q.dataset.quick), q.dataset.size); return; }
+    if (e.target.closest("[data-stop]")) return;
+    const f = e.target.closest("[data-fav]");
+    if (f) {
+      const id = +f.dataset.fav;
       favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id];
-      try { localStorage.setItem("dabro-favs", JSON.stringify(favs)); } catch (e) {}
-      fav.classList.toggle("is-on");
-      if (favs.includes(id)) dabroToast("Добавлено в избранное");
+      try { localStorage.setItem("dabro-favs", JSON.stringify(favs)); } catch (er) {}
+      f.classList.toggle("on", favs.includes(id));
+      if (favs.includes(id)) toast("Добавлено в избранное", "♥");
       return;
     }
     const o = e.target.closest("[data-open]");
-    if (o) open(+o.dataset.open);
+    if (o) openProduct(+o.dataset.open);
   });
-  grid.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches(".card__media")) open(+e.target.dataset.open); });
+  grid.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches("[data-open]")) openProduct(+e.target.dataset.open); });
 
-  /* quick view */
-  const modal = $("#modal");
-  let cur = null, size = null, lastFocus = null;
-  function open(id) {
-    cur = PRODUCTS.find(p => p.id === id); size = null;
-    lastFocus = document.activeElement;
-    $("#m-brand").textContent = `${cur.brand} · ${CATS[cur.cat]}`;
-    $("#m-name").textContent = cur.name;
-    $("#m-price").innerHTML = fmt(cur.price) + (cur.old ? `<s>${fmt(cur.old)}</s>` : "");
-    $("#m-desc").textContent = cur.desc;
-    $("#m-img").src = u(cur.img[0]); $("#m-img").alt = cur.name;
-    $("#m-thumbs").innerHTML = cur.img.length < 2 ? "" : cur.img.map((im, i) => `<button class="${i ? "" : "is-active"}" data-src="${u(im)}" aria-label="Фото ${i + 1}"><img src="${u(im)}" alt=""></button>`).join("");
-    $("#m-sizes").innerHTML = cur.sizes.map(s => `<button class="size" ${cur.out.includes(s) ? "disabled" : ""}>${s}</button>`).join("");
-    if (cur.sizes.length === 1) { size = cur.sizes[0]; $("#m-sizes .size").classList.add("is-active"); }
-    modal.classList.add("is-open"); modal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("is-locked");
-    setTimeout(() => $(".modal__close").focus(), 50);
+  /* ---------- panels ---------- */
+  let lastFocus = null;
+  const openPanel = p => { lastFocus = document.activeElement; p.classList.add("open"); p.setAttribute("aria-hidden", "false"); document.body.classList.add("lock"); setTimeout(() => $(".panel__x", p).focus({ preventScroll: true }), 60); };
+  const closePanel = p => { p.classList.remove("open"); p.setAttribute("aria-hidden", "true"); if (!$(".panel.open")) document.body.classList.remove("lock"); lastFocus?.focus?.({ preventScroll: true }); };
+  $$(".panel").forEach(p => $$("[data-x]", p).forEach(b => b.addEventListener("click", () => closePanel(p))));
+  addEventListener("keydown", e => { if (e.key === "Escape") $$(".panel.open").forEach(closePanel); });
+
+  /* product view */
+  const pv = $("#pv");
+  let cur = null, size = null;
+  function openProduct(id) {
+    cur = PRODUCTS.find(p => p.id === id); size = cur.sizes.length === 1 ? cur.sizes[0] : null;
+    $("#pv-gal").innerHTML = cur.img.map(im => `<img src="${u(im, 1100)}" alt="${cur.name}">`).join("");
+    $("#pv-gal").scrollLeft = 0;
+    $("#pv-cat").textContent = `${cur.brand} · ${CATS[cur.cat]}`;
+    $("#pv-name").textContent = cur.name;
+    $("#pv-price").innerHTML = fmt(cur.price) + (cur.old ? `<s>${fmt(cur.old)}</s>` : "");
+    $("#pv-desc").textContent = cur.desc;
+    $("#pv-sizes").innerHTML = cur.sizes.map(s => `<button class="${s === size ? "on" : ""}" ${cur.out.includes(s) ? "disabled" : ""}>${s}</button>`).join("");
+    const c = dabro.cityData();
+    $("#pv-stock").innerHTML = `<i></i><span>В наличии в ${dabro.city === "uralsk" ? "Уральске" : "Астане"} — ${dabro.storesWord(c.stores.length)}. Можно забронировать примерку.</span>`;
+    pv.querySelector(".panel__box").scrollTop = 0;
+    openPanel(pv);
   }
-  function close() {
-    modal.classList.remove("is-open"); modal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("is-locked");
-    lastFocus?.focus?.();
-  }
-  $("#m-thumbs").addEventListener("click", e => {
-    const b = e.target.closest("button"); if (!b) return;
-    $$("#m-thumbs button").forEach(x => x.classList.toggle("is-active", x === b));
-    const m = $("#m-img"); m.style.opacity = 0;
-    setTimeout(() => { m.src = b.dataset.src; m.style.opacity = 1; }, 200);
-  });
-  $("#m-img").style.transition = "opacity .3s";
-  $("#m-sizes").addEventListener("click", e => {
-    const b = e.target.closest(".size"); if (!b || b.disabled) return;
+  $("#pv-sizes").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b || b.disabled) return;
     size = b.textContent;
-    $$("#m-sizes .size").forEach(x => x.classList.toggle("is-active", x === b));
+    $$("#pv-sizes button").forEach(x => x.classList.toggle("on", x === b));
   });
-  $("#m-add").addEventListener("click", () => {
-    if (!size) { const s = $("#m-sizes"); s.classList.remove("shake"); void s.offsetWidth; s.classList.add("shake"); dabroToast("Выберите размер"); return; }
-    const items = dabroBag.get();
-    const ex = items.find(i => i.id === cur.id && i.size === size);
-    ex ? ex.qty++ : items.push({ id: cur.id, size, qty: 1 });
-    dabroBag.set(items); dabroBag.paint(true);
-    close(); dabroToast(`«${cur.name}», размер ${size} — в корзине`);
-    renderBag();
+  $("#pv-add").addEventListener("click", () => {
+    if (!size) { const s = $("#pv-sizes"); s.classList.remove("shake"); void s.offsetWidth; s.classList.add("shake"); toast("Сначала выберите размер", "!"); return; }
+    addToBag(cur, size); closePanel(pv);
   });
-  $("#m-wa").addEventListener("click", () => dabroToast("В рабочей версии откроется чат WhatsApp с менеджером"));
-  $$("[data-close]", modal).forEach(b => b.addEventListener("click", close));
+  $("#pv-try").addEventListener("click", () => toast(`Прототип: здесь будет бронь примерки в ${dabro.city === "uralsk" ? "Уральске" : "Астане"}`, "i"));
 
-  /* bag drawer */
-  const drawer = $("#drawer");
+  /* bag */
+  const bp = $("#bagp");
   function renderBag() {
-    const items = dabroBag.get();
-    const box = $("#bag-items");
-    if (!items.length) {
-      box.innerHTML = `<div class="drawer__empty"><p class="lead">Корзина пуста</p><p>Добавьте вещи из каталога</p></div>`;
-      $("#bag-total").textContent = fmt(0); return;
-    }
+    const items = bag.get(), box = $("#bag-items");
     let total = 0;
-    box.innerHTML = items.map((it, i) => {
+    box.innerHTML = items.length ? items.map((it, i) => {
       const p = PRODUCTS.find(x => x.id === it.id); if (!p) return "";
       total += p.price * it.qty;
-      return `<div class="line">
-        <img src="${u(p.img[0])}" alt="">
-        <div><div class="line__name">${p.name}</div><div class="line__meta">Размер ${it.size} · ${it.qty} шт.</div><button class="line__rm" data-rm="${i}">Удалить</button></div>
-        <div class="line__price">${fmt(p.price * it.qty)}</div></div>`;
-    }).join("");
+      return `<div class="bl"><img src="${u(p.img[0], 300)}" alt=""><div><div class="bl__n">${p.name}</div><div class="bl__m">Размер ${it.size} · ${it.qty} шт.</div><button class="bl__rm" data-rm="${i}">Удалить</button></div><div class="bl__p">${fmt(p.price * it.qty)}</div></div>`;
+    }).join("") : `<div class="bag__empty"><b>Пусто</b>Добавьте вещи из каталога</div>`;
     $("#bag-total").textContent = fmt(total);
   }
-  const openBag = e => { e?.preventDefault(); renderBag(); drawer.classList.add("is-open"); document.body.classList.add("is-locked"); };
-  const closeBag = () => { drawer.classList.remove("is-open"); document.body.classList.remove("is-locked"); };
-  $$("[data-bag]").forEach(b => b.addEventListener("click", openBag));
-  $$("[data-close-bag]").forEach(b => b.addEventListener("click", closeBag));
   $("#bag-items").addEventListener("click", e => {
     const b = e.target.closest("[data-rm]"); if (!b) return;
-    const items = dabroBag.get(); items.splice(+b.dataset.rm, 1); dabroBag.set(items); renderBag();
+    const items = bag.get(); items.splice(+b.dataset.rm, 1); bag.set(items); renderBag();
   });
-  $("#checkout").addEventListener("click", () => dabroToast("Прототип: здесь будет оформление заказа и выбор бутика"));
+  $$(".bag-btn").forEach(b => b.addEventListener("click", e => { e.preventDefault(); renderBag(); openPanel(bp); }));
+  $("#checkout").addEventListener("click", () => toast(`Прототип: оформление и выбор бутика в ${dabro.city === "uralsk" ? "Уральске" : "Астане"}`, "i"));
+  if (location.hash === "#bag") { renderBag(); setTimeout(() => openPanel(bp), 300); history.replaceState(null, "", location.pathname + location.search); }
 
-  addEventListener("keydown", e => { if (e.key === "Escape") { if (modal.classList.contains("is-open")) close(); if (drawer.classList.contains("is-open")) closeBag(); } });
-
-  render();
+  setCat(state.cat);
 })();
