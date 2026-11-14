@@ -85,8 +85,11 @@
       <article class="pc" style="animation-delay:${Math.min(i, 9) * .05}s">
         <div class="pc__media" data-open="${p.id}" role="button" tabindex="0" aria-label="Открыть: ${p.name}">
           ${p.tag ? `<span class="pc__tag${p.old ? " sale" : ""}">${p.tag}</span>` : ""}
-          ${imgTag(p.img[0], "a", p.name)}
-          ${p.img[1] ? imgTag(p.img[1], "b", "") : ""}
+          <div class="pc__slides">
+            ${imgTag(p.img[0], "a", p.name)}
+            ${p.img[1] ? imgTag(p.img[1], "b", `${p.name}, фото 2`) : ""}
+          </div>
+          ${p.img.length > 1 ? `<div class="pc__pager">${p.img.map((_, k) => `<i class="${k ? "" : "on"}"></i>`).join("")}</div>` : ""}
           <div class="pc__quick" data-stop>
             <small>Быстро в корзину</small>
             <div class="pc__sizes">${p.sizes.map(s => `<button data-quick="${p.id}" data-size="${s}" ${p.out.includes(s) ? "disabled" : ""}>${s}</button>`).join("")}</div>
@@ -140,8 +143,11 @@
   let cur = null, size = null;
   function openProduct(id) {
     cur = PRODUCTS.find(p => p.id === id); size = cur.sizes.length === 1 ? cur.sizes[0] : null;
-    $("#pv-gal").innerHTML = cur.img.map(im => `<img src="${u(im, 1100)}" alt="${cur.name}">`).join("");
+    $("#pv-gal").innerHTML = cur.img.map((im, k) => `<img src="${u(im, 1100)}" alt="${cur.name}${k ? `, фото ${k + 1}` : ""}">`).join("");
     $("#pv-gal").scrollLeft = 0;
+    $("#pv-galwrap").classList.toggle("single", cur.img.length < 2);
+    $("#pv-pager").innerHTML = cur.img.map((_, k) => `<i class="${k ? "" : "on"}"></i>`).join("");
+    syncGal();
     $("#pv-cat").textContent = `${cur.brand} · ${CATS[cur.cat]}`;
     $("#pv-name").textContent = cur.name;
     $("#pv-price").innerHTML = fmt(cur.price) + (cur.old ? `<s>${fmt(cur.old)}</s>` : "");
@@ -152,6 +158,28 @@
     pv.querySelector(".panel__box").scrollTop = 0;
     openPanel(pv);
   }
+  /* gallery: swipe, arrows, dots */
+  const gal = $("#pv-gal");
+  const step = () => (gal.querySelector("img")?.offsetWidth || gal.clientWidth) + 8;
+  function syncGal() {
+    const n = gal.children.length, idx = Math.min(n - 1, Math.round(gal.scrollLeft / step()));
+    $$("#pv-pager i").forEach((d, k) => d.classList.toggle("on", k === idx));
+    const max = gal.scrollWidth - gal.clientWidth - 2;
+    $(".pv__nav.prev").disabled = gal.scrollLeft <= 2;
+    $(".pv__nav.next").disabled = gal.scrollLeft >= max;
+  }
+  gal.addEventListener("scroll", () => requestAnimationFrame(syncGal), { passive: true });
+  $$("[data-gal]").forEach(b => b.addEventListener("click", () => gal.scrollBy({ left: +b.dataset.gal * step(), behavior: "smooth" })));
+  gal.addEventListener("keydown", e => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); gal.scrollBy({ left: (e.key === "ArrowRight" ? 1 : -1) * step(), behavior: "smooth" }); } });
+  gal.tabIndex = 0;
+
+  /* card photo swipe (touch): keep dots in sync */
+  grid.addEventListener("scroll", e => {
+    const sl = e.target; if (!sl.classList || !sl.classList.contains("pc__slides")) return;
+    const idx = Math.round(sl.scrollLeft / sl.clientWidth);
+    sl.parentElement.querySelectorAll(".pc__pager i").forEach((d, k) => d.classList.toggle("on", k === idx));
+  }, { passive: true, capture: true });
+
   $("#pv-sizes").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b || b.disabled) return;
     size = b.textContent;

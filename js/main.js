@@ -136,17 +136,37 @@
   const hs = $(".hscroll");
   if (hs) {
     const track = $(".hscroll__track", hs), bar = $(".hscroll__progress i", hs);
-    const size = () => { hs.style.height = `${track.scrollWidth - innerWidth + innerHeight}px`; };
+    // phones/tablets: native swipe carousel; desktop: strip moves with vertical scroll
+    const swipeMQ = matchMedia("(hover: none), (max-width: 860px)");
+    const swipe = () => swipeMQ.matches;
+    const size = () => { hs.style.height = swipe() ? "" : `${track.scrollWidth - innerWidth + innerHeight}px`; };
     const run = () => {
+      if (swipe()) return;
       const r = hs.getBoundingClientRect(), max = hs.offsetHeight - innerHeight;
       const p = Math.min(1, Math.max(0, -r.top / max));
       track.style.transform = `translate3d(${-p * (track.scrollWidth - innerWidth)}px,0,0)`;
       if (bar) bar.style.transform = `scaleX(${p})`;
     };
-    size(); run();
-    addEventListener("resize", () => { size(); run(); });
-    addEventListener("load", () => { size(); run(); });
+    const runSwipe = () => {
+      if (!swipe() || !bar) return;
+      const max = track.scrollWidth - track.clientWidth;
+      bar.style.transform = `scaleX(${max > 0 ? track.scrollLeft / max : 0})`;
+    };
+    const reset = () => { if (swipe()) track.style.transform = ""; size(); run(); runSwipe(); };
+    reset();
+    addEventListener("resize", reset);
+    addEventListener("load", reset);
+    swipeMQ.addEventListener?.("change", reset);
     addEventListener("scroll", run, { passive: true });
+    track.addEventListener("scroll", runSwipe, { passive: true });
+    // desktop trackpad: horizontal swipe gesture also moves the strip
+    hs.addEventListener("wheel", e => {
+      if (swipe() || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      const r = hs.getBoundingClientRect();
+      if (r.top > 0 || r.bottom < innerHeight) return;
+      e.preventDefault();
+      scrollBy(0, e.deltaX);
+    }, { passive: false });
   }
 
   /* ---------- cursor blob ---------- */

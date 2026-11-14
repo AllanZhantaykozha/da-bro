@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=4">
+  <link rel="stylesheet" href="css/styles.css?v=5">
 </head>
 <body>
 
@@ -96,7 +96,12 @@
   <div class="panel__bg" data-x></div>
   <div class="panel__box">
     <button class="panel__x" data-x aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="pv__gal" id="pv-gal"></div>
+    <div class="pv__galwrap" id="pv-galwrap">
+      <div class="pv__gal" id="pv-gal"></div>
+      <button class="pv__nav prev" data-gal="-1" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="pv__nav next" data-gal="1" aria-label="Следующее фото"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+      <div class="pv__pager" id="pv-pager"></div>
+    </div>
     <div class="pv__body">
       <span class="pc__cat" id="pv-cat"></span>
       <h2 class="pv__name" id="pv-name"></h2>
@@ -127,7 +132,7 @@
   </div>
 </div>
 
-<script src="js/main.js?v=4"></script>
-<script src="js/catalog.js?v=4"></script>
+<script src="js/main.js?v=5"></script>
+<script src="js/catalog.js?v=5"></script>
 </body>
 </html>
