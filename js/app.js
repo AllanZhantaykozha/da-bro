@@ -193,6 +193,24 @@
     sl.parentElement.querySelectorAll(".card__dots i").forEach((d, k) => d.classList.toggle("on", k === i));
   }, { capture: true, passive: true });
 
+  /* ---------------- page transitions ---------------- */
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.addEventListener("click", e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest("a[href]");
+    if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || !/\.html$|\/$/.test(url.pathname)) return;
+    if (url.pathname === location.pathname && url.search === location.search) return; // same page / hash link
+    e.preventDefault();
+    try { sessionStorage.setItem("dabro-nav", "1"); } catch (er) {}
+    if (reduceMotion) { location.href = url.href; return; }
+    document.documentElement.classList.add("leaving");
+    setTimeout(() => { location.href = url.href; }, 400);
+  });
+  addEventListener("pageshow", e => { if (e.persisted) document.documentElement.classList.remove("leaving", "arrive"); });
+  setTimeout(() => document.documentElement.classList.remove("arrive"), 1600);
+
   /* ---------------- custom select (enhances <div class="cselect"><select>) ---------------- */
   function enhanceSelect(sel) {
     const box = sel.parentElement, id = (sel.id || "cs" + Math.random().toString(36).slice(2, 7)) + "-list";
