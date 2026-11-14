@@ -2,199 +2,104 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>DA BRO — мужская одежда и обувь · Астана, Уральск</title>
-  <meta name="description" content="DA BRO — бутики мужской одежды и обуви в Астане и Уральске.">
-  <meta name="theme-color" content="#ecebe6">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='32' fill='%230b0b0b'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial' font-weight='900' font-size='22' fill='%23ff4f17'>DB</text></svg>">
+  <meta name="description" content="DA BRO — бутики мужской одежды и обуви в Астане и Уральске. Заказ онлайн с подтверждением в WhatsApp.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23121212'/><text x='50%' y='56%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='22' fill='%23c9b48f'>DB</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=5">
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 </head>
-<body>
-
-<header class="hdr">
-  <a href="index.html" class="hdr__logo" aria-label="DA BRO — на главную"><b>DB</b>DA BRO</a>
-  <nav class="hdr__nav" aria-label="Навигация">
-    <a href="index.html" class="on">О нас</a>
-    <a href="catalog.html">Каталог</a>
-    <a href="#stores">Бутики</a>
-    <a href="#contacts">Контакты</a>
-  </nav>
-  <div class="hdr__right">
-    <button class="city-pill" data-open-gate aria-label="Сменить город">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
-      <span data-city>Город</span>
-      <svg class="chev" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 1.5l5 5 5-5"/></svg>
-    </button>
-    <a href="catalog.html#bag" class="bag-btn" aria-label="Корзина">
-      <span class="lbl">Корзина</span><span class="bag-n">0</span>
-    </a>
-    <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span></button>
-  </div>
-</header>
-
-<nav class="mnav" aria-label="Мобильное меню">
-  <a href="index.html">О нас</a>
-  <a href="catalog.html">Каталог</a>
-  <a href="#stores">Бутики</a>
-  <a href="#" data-open-gate>Город</a>
-</nav>
-
+<body data-page="home">
 <main>
-  <!-- HERO -->
   <section class="hero wrap">
-    <h1 class="hero__word" aria-label="DA BRO">
-      <span class="row" aria-hidden="true"><span>D</span><span style="transition-delay:.06s">A</span></span>
-      <span class="row" aria-hidden="true"><span style="transition-delay:.14s">B</span><span style="transition-delay:.2s">R</span><span class="o" style="transition-delay:.26s">O</span></span>
-    </h1>
-
     <div class="hero__grid">
-      <figure class="tile hero__photo">
+      <div class="hero__text">
+        <span class="eyebrow"><i></i>Бутики открыты · <span data-city-name>Астана</span></span>
+        <h1 class="h1">Мужская одежда и&nbsp;обувь, которая сидит как надо</h1>
+        <p>Костюмы, верхняя одежда, трикотаж и обувь. Выберите на сайте — менеджер подтвердит заказ в WhatsApp, а примерить можно в бутике.</p>
+        <div class="hero__cta">
+          <a href="catalog.html" class="btn">Перейти в каталог</a>
+          <a href="#stores" class="btn btn--light">Бутики рядом</a>
+        </div>
+        <div class="hero__facts">
+          <div><b>2 города</b><span>Астана и Уральск</span></div>
+          <div><b>14 дней</b><span>на обмен и возврат</span></div>
+          <div><b>0 ₸</b><span>подгонка по фигуре</span></div>
+        </div>
+      </div>
+      <div class="hero__media">
         <img src="assets/boutique.png" alt="Бутик DA BRO — витрина с мужской одеждой">
-        <figcaption class="tag">Бутик DA BRO</figcaption>
-      </figure>
-      <div class="tile hero__intro">
-        <span class="kicker">Мужская одежда и обувь</span>
-        <p>Костюмы, верхняя одежда, трикотаж и обувь — собираем гардероб для мужчин, которые ценят посадку и детали.</p>
-        <a href="#about" class="btn btn--ghost">О бренде</a>
-      </div>
-      <div class="tile hero__cta">
-        <svg class="badge-spin" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="c" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text><textPath href="#c">DA BRO ✺ Астана ✺ Уральск ✺ </textPath></text></svg>
-        <span class="kicker" style="color:rgba(246,245,241,.6)">Ваш город</span>
-        <div>
-          <div class="city-big" data-city>—</div>
-          <p style="margin-top:10px;color:rgba(246,245,241,.6)"><span data-city-stores></span> · ежедневно 10:00 — 22:00</p>
-        </div>
-        <a href="catalog.html" class="btn btn--accent btn--block">Смотреть каталог <i>&rarr;</i></a>
+        <div class="hero__chip"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg></i><span><b><span data-city-stores>3 бутика</span> в <span data-city-in>Астане</span></b>ежедневно с 10:00</span></div>
       </div>
     </div>
   </section>
 
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker__track">
-      <span>Костюмы</span><span>Верхняя одежда</span><span>Трикотаж</span><span>Обувь</span><span>Астана</span><span>Уральск</span>
-      <span>Костюмы</span><span>Верхняя одежда</span><span>Трикотаж</span><span>Обувь</span><span>Астана</span><span>Уральск</span>
+  <section class="wrap" style="padding-bottom:clamp(48px,7vw,96px)">
+    <div class="sec-head"><h2 class="h2">Категории</h2><a class="link" href="catalog.html">Все товары <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    <div class="cats">
+      <a class="cat rv" href="catalog.html?cat=outerwear"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Верхняя одежда <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="cat rv" href="catalog.html?cat=suits"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Костюмы <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="cat rv" href="catalog.html?cat=shoes"><img src="https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Обувь <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="cat rv" href="catalog.html?cat=shirts"><img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?w=700&q=75&auto=format&fit=crop" alt="" loading="lazy"><span>Рубашки <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
     </div>
-  </div>
-
-  <!-- ABOUT / BENTO -->
-  <section class="sec wrap" id="about">
-    <div class="sec__head">
-      <h2 class="h-xl" data-mask><span class="mask"><span>Не просто</span></span><span class="mask"><span>одежда<span class="accent">.</span></span></span></h2>
-      <p class="rv">DA BRO — сеть бутиков мужской одежды и обуви в Астане и Уральске.</p>
-    </div>
-    <div class="bento">
-      <div class="tile b-about rv">
-        <span class="kicker">О нас</span>
-        <div>
-          <p>Мы собираем гардероб целиком: классический костюм для важной встречи, тёплое пальто для казахстанской зимы, трикотаж на каждый день и обувь, которая завершает образ.</p>
-          <p style="margin-top:18px">Стилисты в каждом бутике помогут подобрать размер, сочетания и подгонят вещь по фигуре. Без спешки и без навязчивости — как у хорошего друга, который разбирается в стиле.</p>
-        </div>
-      </div>
-      <div class="tile b-stat b-stat--accent rv" data-d="1"><span class="lbl">Города</span><span class="num" data-count="2">0</span></div>
-      <div class="tile b-stat b-stat--ink rv" data-d="2"><span class="lbl">Бутика</span><span class="num" data-count="4">0</span></div>
-      <div class="tile b-stat rv" data-d="1"><span class="lbl">Моделей в наличии</span><span class="num"><span data-count="1200">0</span>+</span></div>
-      <div class="tile b-stat rv" data-d="2"><span class="lbl">Размерный ряд</span><span class="num" style="font-size:clamp(44px,4.6vw,80px)">46—62</span></div>
-      <div class="tile b-photo rv">
-        <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=1200&q=75&auto=format&fit=crop" alt="Капсульный гардероб: рубашки, брюки, обувь" loading="lazy">
-      </div>
-      <div class="tile b-list rv" data-d="1">
-        <span class="kicker">В каждом бутике</span>
-        <ul>
-          <li><b>Стилист</b><span>бесплатно</span></li>
-          <li><b>Подгонка</b><span>в день покупки*</span></li>
-          <li><b>Обмен</b><span>14 дней</span></li>
-          <li><b>Сертификаты</b><span>от 20 000 ₸</span></li>
-        </ul>
-      </div>
+    <div class="chips-row">
+      <a class="chip" href="catalog.html?cat=knit">Трикотаж</a>
+      <a class="chip" href="catalog.html?cat=trousers">Брюки и джинсы</a>
+      <a class="chip" href="catalog.html?cat=accessories">Аксессуары</a>
+      <a class="chip" href="catalog.html?sale=1">Скидки</a>
     </div>
   </section>
 
-  <!-- HORIZONTAL CATEGORIES -->
-  <section class="hscroll" aria-label="Категории">
-    <div class="hscroll__sticky">
-      <div class="wrap hscroll__head">
-        <h2 class="h-lg">Категории<span class="accent">→</span></h2>
-        <span class="hscroll__hint">Листайте <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><div class="hscroll__progress"><i></i></div>
-      </div>
-      <div class="hscroll__track">
-        <a class="hcard" href="catalog.html?cat=outerwear"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=900&q=75&auto=format&fit=crop" alt="" loading="lazy"><span class="hcard__n">01</span><span class="hcard__body"><span class="hcard__t">Верхняя<br>одежда</span><span class="hcard__go">&rarr;</span></span></a>
-        <a class="hcard" href="catalog.html?cat=suits"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=900&q=75&auto=format&fit=crop" alt="" loading="lazy"><span class="hcard__n">02</span><span class="hcard__body"><span class="hcard__t">Костюмы</span><span class="hcard__go">&rarr;</span></span></a>
-        <a class="hcard" href="catalog.html?cat=shirts"><img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?w=900&q=75&auto=format&fit=crop" alt="" loading="lazy"><span class="hcard__n">03</span><span class="hcard__body"><span class="hcard__t">Рубашки</span><span class="hcard__go">&rarr;</span></span></a>
-        <a class="hcard" href="catalog.html?cat=knit"><img src="https://images.unsplash.com/photo-1614975059251-992f11792b9f?w=900&q=75&auto=format&fit=crop" alt="" loading="lazy"><span class="hcard__n">04</span><span class="hcard__body"><span class="hcard__t">Трикотаж</span><span class="hcard__go">&rarr;</span></span></a>
-        <a class="hcard" href="catalog.html?cat=trousers"><img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=900&q=75&auto=format&fit=crop" alt="" loading="lazy"><span class="hcard__n">05</span><span class="hcard__body"><span class="hcard__t">Брюки</span><span class="hcard__go">&rarr;</span></span></a>
-        <a class="hcard" href="catalog.html?cat=shoes"><img src="https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=900&q=75&auto=format&fit=crop" alt="" loading="lazy"><span class="hcard__n">06</span><span class="hcard__body"><span class="hcard__t">Обувь</span><span class="hcard__go">&rarr;</span></span></a>
-        <a class="hcard" href="catalog.html?cat=accessories"><img src="https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=900&q=75&auto=format&fit=crop" alt="" loading="lazy"><span class="hcard__n">07</span><span class="hcard__body"><span class="hcard__t">Аксес&shy;суары</span><span class="hcard__go">&rarr;</span></span></a>
-        <a class="hcard hcard--end" href="catalog.html"><span class="hcard__n" style="position:static">✺</span><span class="hcard__t" style="font-size:clamp(34px,3.4vw,56px)">Весь<br>каталог</span><span class="btn">Открыть <i>&rarr;</i></span></a>
-      </div>
+  <section class="wrap" style="padding-bottom:clamp(48px,7vw,96px)">
+    <div class="sec-head">
+      <h2 class="h2">Новинки и скидки</h2>
+      <div class="row-nav"><button data-row="-1" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button><button data-row="1" aria-label="Вперёд"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button></div>
     </div>
+    <div class="prow" id="new-row"></div>
   </section>
 
-  <!-- SERVICES -->
-  <section class="sec wrap">
-    <div class="sec__head">
-      <h2 class="h-lg" data-mask><span class="mask"><span>Сервис</span></span><span class="mask"><span>как у <span class="accent">своих</span></span></span></h2>
-      <p class="rv">Бро — это про отношение. Мы не продаём «что есть», а помогаем выглядеть уверенно.</p>
-    </div>
-    <div class="rows">
-      <a href="#stores" class="row-item rv"><span class="n">01</span><h3>Стилист</h3><p>Соберём образ под событие, бюджет и ваш стиль — бесплатно.</p><span class="arr">&rarr;</span></a>
-      <a href="#stores" class="row-item rv"><span class="n">02</span><h3>Подгонка</h3><p>Длина брюк и рукавов, посадка пиджака — прямо в бутике.</p><span class="arr">&rarr;</span></a>
-      <a href="catalog.html" class="row-item rv"><span class="n">03</span><h3>Бронь онлайн</h3><p>Отложите вещь на сайте и приходите на примерку в удобное время.</p><span class="arr">&rarr;</span></a>
-      <a href="#stores" class="row-item rv"><span class="n">04</span><h3>Сертификаты</h3><p>Подарок, с которым невозможно ошибиться. От 20 000 ₸.</p><span class="arr">&rarr;</span></a>
-    </div>
-  </section>
-
-  <!-- STORES -->
-  <section class="stores" id="stores">
+  <section class="sec sec--soft" id="how">
     <div class="wrap">
-      <div class="sec__head">
-        <h2 class="h-lg">Бутики в<br><span class="accent" data-city-in>Астане</span></h2>
-        <p>Приходите на примерку — стилист подберёт размер и соберёт образ.</p>
+      <div class="sec-head"><h2 class="h2">Как заказать</h2></div>
+      <div class="steps">
+        <div class="step rv"><b>Выберите товар и размер</b><p>Добавьте вещи в корзину или нажмите «Купить через WhatsApp» прямо на странице товара.</p></div>
+        <div class="step rv"><b>Оформите заказ</b><p>Имя, телефон, самовывоз или доставка, удобная оплата — меньше минуты.</p></div>
+        <div class="step rv"><b>Подтвердим в WhatsApp</b><p>Откроется чат с готовым сообщением. Менеджер подтвердит наличие и время.</p></div>
       </div>
-      <div class="store-grid" id="store-grid"></div>
-      <div class="other-city"><span>Вы из другого города?</span><button data-open-gate>Сменить город</button></div>
+      <div class="perks" style="margin-top:12px">
+        <div class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 7a2 2 0 1 1 2-2M12 7v2L3 16h18l-9-7"/></svg></i><b>Примерка</b><p>Примерьте в бутике перед оплатой</p></div>
+        <div class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 17 14-14 4 4L7 21z"/><path d="m7 13 2 2M10 10l2 2M13 7l2 2"/></svg></i><b>Подгонка</b><p>Длина брюк и рукавов — бесплатно</p></div>
+        <div class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg></i><b>Обмен 14 дней</b><p>Без лишних вопросов</p></div>
+        <div class="perk rv"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg></i><b>Доставка</b><p>По городу 1–2 дня, от 50 000 ₸ — бесплатно</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="stores">
+    <div class="sec-head">
+      <div><h2 class="h2">Бутики в <span data-city-in>Астане</span></h2><p class="muted" style="margin-top:6px">Приходите на примерку — стилист подберёт размер и соберёт образ.</p></div>
+      <button class="link" data-city-open>Другой город <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="stores" id="stores-list"></div>
+  </section>
+
+  <section class="sec sec--soft" id="about">
+    <div class="wrap about">
+      <div class="about__img rv"><img src="assets/boutique.png" alt="Интерьер бутика DA BRO" loading="lazy"></div>
+      <div class="rv">
+        <span class="eyebrow">О нас</span>
+        <h2 class="h2" style="margin-top:8px">DA BRO — гардероб для мужчин, которые ценят детали</h2>
+        <p>Мы собираем в бутиках Астаны и Уральска всё, что нужно мужчине: от классического костюма для важной встречи до тёплого пальто для казахстанской зимы и обуви, которая завершает образ.</p>
+        <p>Стилисты помогут подобрать размер и сочетания, а портной подгонит вещь по фигуре. Без спешки и навязчивости — как у хорошего друга, который разбирается в стиле.</p>
+        <a class="btn" href="catalog.html" style="margin-top:24px">Смотреть каталог</a>
+      </div>
     </div>
   </section>
 </main>
-
-<footer class="foot" id="contacts">
-  <div class="foot__cta">
-    <h2 class="h-xl">Приходи<br>на&nbsp;примерку</h2>
-    <div>
-      <p style="font-size:18px;margin-bottom:22px;max-width:34ch">Отложим вещи в бутике в <span data-city-in>Астане</span>, подготовим примерочную и кофе.</p>
-      <a href="catalog.html" class="btn">В каталог <i>&rarr;</i></a>
-    </div>
-  </div>
-  <div class="foot__grid">
-    <div><h4>Новости</h4><form class="sub"><input type="email" required placeholder="E-mail" aria-label="E-mail"><button>Ок</button></form></div>
-    <div><h4>Каталог</h4><ul><li><a href="catalog.html?cat=outerwear">Верхняя одежда</a></li><li><a href="catalog.html?cat=suits">Костюмы</a></li><li><a href="catalog.html?cat=shoes">Обувь</a></li></ul></div>
-    <div><h4>Бутики</h4><ul><li>Астана — 3 бутика</li><li>Уральск — 1 бутик</li><li><a href="#" data-open-gate>Сменить город</a></li></ul></div>
-    <div><h4>Связь</h4><ul><li><a href="#" data-soon="Ссылка на Instagram появится в рабочей версии">Instagram</a></li><li><a href="#" data-soon="Ссылка на WhatsApp появится в рабочей версии">WhatsApp</a></li><li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li></ul></div>
-  </div>
-  <div class="foot__base"><span>© 2026 DA BRO</span><span>Прототип · адреса и цифры — заглушки</span></div>
-</footer>
-
-<script src="js/main.js?v=5"></script>
-<script>
-  (() => {
-    const grid = document.getElementById("store-grid");
-    const render = () => {
-      const c = dabro.cityData();
-      grid.innerHTML = c.stores.map((s, i) => `
-        <article class="store">
-          <span class="store__num">0${i + 1}</span>
-          <span class="store__tag">${c.name} · бутик</span>
-          <h3 class="store__name">${s.name}</h3>
-          <p class="store__addr">${s.addr}<br>Адрес уточняется</p>
-          <div class="store__foot"><span class="hours"><i></i>${s.hours}</span><a href="#" class="store__route" data-soon="Маршрут в 2ГИС появится в рабочей версии">Маршрут</a></div>
-        </article>`).join("");
-      grid.querySelectorAll("[data-soon]").forEach(a => a.addEventListener("click", e => { e.preventDefault(); toast(a.dataset.soon, "i"); }));
-    };
-    render();
-    document.addEventListener("dabro:city", render);
-  })();
-</script>
+<script src="js/data.js?v=6"></script>
+<script src="js/app.js?v=6"></script>
 </body>
 </html>

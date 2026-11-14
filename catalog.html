@@ -2,137 +2,51 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Каталог — DA BRO · мужская одежда и обувь</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Каталог — DA BRO</title>
   <meta name="description" content="Каталог DA BRO: верхняя одежда, костюмы, рубашки, трикотаж, брюки, обувь и аксессуары.">
-  <meta name="theme-color" content="#ecebe6">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='32' fill='%230b0b0b'/><text x='50%' y='54%' text-anchor='middle' dominant-baseline='middle' font-family='Arial Black,Arial' font-weight='900' font-size='22' fill='%23ff4f17'>DB</text></svg>">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23121212'/><text x='50%' y='56%' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='700' font-size='22' fill='%23c9b48f'>DB</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=5">
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 </head>
-<body>
-
-<header class="hdr">
-  <a href="index.html" class="hdr__logo" aria-label="DA BRO — на главную"><b>DB</b>DA BRO</a>
-  <nav class="hdr__nav" aria-label="Навигация">
-    <a href="index.html">О нас</a>
-    <a href="catalog.html" class="on">Каталог</a>
-    <a href="index.html#stores">Бутики</a>
-    <a href="#contacts">Контакты</a>
-  </nav>
-  <div class="hdr__right">
-    <button class="city-pill" data-open-gate aria-label="Сменить город">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
-      <span data-city>Город</span>
-      <svg class="chev" viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 1.5l5 5 5-5"/></svg>
-    </button>
-    <a href="#bag" class="bag-btn" aria-label="Корзина"><span class="lbl">Корзина</span><span class="bag-n">0</span></a>
-    <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span></button>
+<body data-page="catalog">
+<main>
+  <div class="wrap page-head">
+    <nav class="crumbs" aria-label="Навигация"><a href="index.html">Главная</a><span>/</span><span>Каталог</span></nav>
+    <h1 class="h2" id="title">Каталог</h1>
   </div>
-</header>
-
-<nav class="mnav" aria-label="Мобильное меню">
-  <a href="index.html">О нас</a>
-  <a href="catalog.html">Каталог</a>
-  <a href="index.html#stores">Бутики</a>
-  <a href="#" data-open-gate>Город</a>
-</nav>
-
-<main class="wrap">
-  <section class="cat-hero">
-    <div class="cat-hero__row">
-      <h1 class="h-xl" data-mask><span class="mask"><span><span id="cat-title">Каталог</span><sup id="cat-count">17</sup></span></span></h1>
-      <div class="cat-hero__city rv">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
-        Наличие: <b data-city>—</b> · <span data-city-stores></span>
-        <button data-open-gate>сменить</button>
+  <div class="toolbar">
+    <div class="wrap">
+      <div class="toolbar__row">
+        <label class="search">
+          <span class="sr">Поиск по каталогу</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>
+          <input id="q" type="search" placeholder="Поиск: пальто, костюм…" autocomplete="off">
+          <button type="button" id="q-clear" aria-label="Очистить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        </label>
+        <label class="select">
+          <span class="sr">Сортировка</span>
+          <select id="sort">
+            <option value="pop">Популярные</option>
+            <option value="new">Новинки</option>
+            <option value="asc">Дешевле</option>
+            <option value="desc">Дороже</option>
+          </select>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </label>
       </div>
+      <div class="chips-row" id="chips" role="toolbar" aria-label="Категории"></div>
     </div>
-  </section>
-
-  <div class="chips" id="chips" role="toolbar" aria-label="Категории"></div>
-
-  <div class="shop">
-    <aside class="side" aria-label="Фильтры">
-      <div class="side__box"><h4>Категории</h4><div class="cats-list" id="cats-list"></div></div>
-      <div class="side__box">
-        <h4>Сортировка</h4>
-        <div class="seg">
-          <button data-sort="default" class="on">Все</button>
-          <button data-sort="asc">Дешевле</button>
-          <button data-sort="desc" style="grid-column:span 2">Сначала дороже</button>
-        </div>
-      </div>
-      <div class="side__box side__help">
-        <p>Не знаете размер?</p>
-        <a href="#" class="btn btn--block" data-soon="В рабочей версии откроется чат WhatsApp со стилистом">Стилист <i>&rarr;</i></a>
-      </div>
-    </aside>
-    <div class="pgrid" id="pgrid" aria-live="polite"></div>
+  </div>
+  <div class="wrap">
+    <div class="result-line"><span id="found"></span><span>Наличие: <b data-city-name style="color:var(--ink)">Астана</b></span></div>
+    <div class="grid" id="grid" aria-live="polite"></div>
   </div>
 </main>
-
-<footer class="foot" id="contacts">
-  <div class="foot__cta">
-    <h2 class="h-xl">Приходи<br>на&nbsp;примерку</h2>
-    <div>
-      <p style="font-size:18px;margin-bottom:22px;max-width:34ch">Отложим вещи в бутике в <span data-city-in>Астане</span>, подготовим примерочную и кофе.</p>
-      <a href="index.html#stores" class="btn">Адреса бутиков <i>&rarr;</i></a>
-    </div>
-  </div>
-  <div class="foot__grid">
-    <div><h4>Новости</h4><form class="sub"><input type="email" required placeholder="E-mail" aria-label="E-mail"><button>Ок</button></form></div>
-    <div><h4>Каталог</h4><ul><li><a href="catalog.html?cat=outerwear">Верхняя одежда</a></li><li><a href="catalog.html?cat=suits">Костюмы</a></li><li><a href="catalog.html?cat=shoes">Обувь</a></li></ul></div>
-    <div><h4>Бутики</h4><ul><li>Астана — 3 бутика</li><li>Уральск — 1 бутик</li><li><a href="#" data-open-gate>Сменить город</a></li></ul></div>
-    <div><h4>Связь</h4><ul><li><a href="#" data-soon="Ссылка на Instagram появится в рабочей версии">Instagram</a></li><li><a href="#" data-soon="Ссылка на WhatsApp появится в рабочей версии">WhatsApp</a></li><li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li></ul></div>
-  </div>
-  <div class="foot__base"><span>© 2026 DA BRO</span><span>Прототип · адреса и цифры — заглушки</span></div>
-</footer>
-
-<!-- product panel -->
-<div class="panel" id="pv" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pv-name">
-  <div class="panel__bg" data-x></div>
-  <div class="panel__box">
-    <button class="panel__x" data-x aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="pv__galwrap" id="pv-galwrap">
-      <div class="pv__gal" id="pv-gal"></div>
-      <button class="pv__nav prev" data-gal="-1" aria-label="Предыдущее фото"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
-      <button class="pv__nav next" data-gal="1" aria-label="Следующее фото"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
-      <div class="pv__pager" id="pv-pager"></div>
-    </div>
-    <div class="pv__body">
-      <span class="pc__cat" id="pv-cat"></span>
-      <h2 class="pv__name" id="pv-name"></h2>
-      <div class="pv__price" id="pv-price"></div>
-      <p class="pv__desc" id="pv-desc"></p>
-      <div class="pv__lbl"><span>Размер</span><a href="#" data-soon="Таблица размеров появится в рабочей версии">Таблица размеров</a></div>
-      <div class="pv__sizes" id="pv-sizes"></div>
-      <div class="pv__actions">
-        <button class="btn btn--accent btn--block" id="pv-add">В корзину <i>&rarr;</i></button>
-        <button class="btn btn--ghost" id="pv-try" style="justify-content:center">Забронировать примерку</button>
-      </div>
-      <div class="pv__stock" id="pv-stock"></div>
-    </div>
-  </div>
-</div>
-
-<!-- bag panel -->
-<div class="panel" id="bagp" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Корзина">
-  <div class="panel__bg" data-x></div>
-  <div class="panel__box">
-    <button class="panel__x" data-x aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="bag__head"><h2 class="h-lg" style="font-size:40px">Корзина</h2></div>
-    <div class="bag__items" id="bag-items"></div>
-    <div class="bag__foot">
-      <div class="bag__total"><span>Итого</span><b id="bag-total">0 ₸</b></div>
-      <button class="btn btn--accent btn--block" id="checkout">Оформить <i>&rarr;</i></button>
-    </div>
-  </div>
-</div>
-
-<script src="js/main.js?v=5"></script>
-<script src="js/catalog.js?v=5"></script>
+<script src="js/data.js?v=6"></script>
+<script src="js/app.js?v=6"></script>
 </body>
 </html>
