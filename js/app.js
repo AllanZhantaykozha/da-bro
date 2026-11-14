@@ -57,17 +57,23 @@
   const toggleFav = id => { favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id]; store.set("dabro-favs", favs); return favs.includes(id); };
 
   /* ---------------- shell ---------------- */
-  const navLinks = [["index.html", "Главная", "home"], ["catalog.html", "Каталог", "catalog"], ["index.html#stores", "Бутики", "stores"], ["index.html#about", "О нас", "about"]];
+  const sale = new URLSearchParams(location.search).get("sale") === "1";
+  const navLinks = [
+    ["catalog.html", "Каталог", (page === "catalog" && !sale) || page === "product"],
+    ["catalog.html?sale=1", "Скидки", page === "catalog" && sale],
+    ["index.html#how", "Как заказать", false],
+    ["index.html#about", "О нас", false],
+  ];
   function shell() {
-    const isOn = k => (k === page || (k === "catalog" && page === "product")) ? "on" : "";
     document.body.insertAdjacentHTML("afterbegin", `
       <header class="hdr"><div class="wrap hdr__in">
         <a href="index.html" class="logo" aria-label="DA BRO — на главную">DA<span>·</span>BRO</a>
-        <nav class="nav" aria-label="Разделы">${navLinks.map(([h, t, k]) => `<a href="${h}" class="${isOn(k)}">${t}</a>`).join("")}</nav>
+        <nav class="nav" aria-label="Разделы">${navLinks.map(([h, t, on]) => `<a href="${h}" class="${on ? "on" : ""}" ${on ? 'aria-current="page"' : ""}>${t}</a>`).join("")}</nav>
         <div class="hdr__right">
           <button class="city-btn" data-city-open aria-label="Сменить город">${I.pin}<span data-city-name>${C().name}</span></button>
-          <a href="catalog.html" class="icon-btn hide-m" aria-label="Поиск">${I.search}</a>
-          <a href="cart.html" class="icon-btn hide-m" aria-label="Корзина">${I.bag}<span class="count" data-count></span></a>
+          <a href="catalog.html" class="icon-btn show-m ${page === "catalog" || page === "product" ? "on" : ""}" aria-label="Каталог">${I.grid}</a>
+          <a href="catalog.html" class="icon-btn hide-m" aria-label="Поиск по каталогу">${I.search}</a>
+          <a href="cart.html" class="cart-btn ${page === "cart" || page === "checkout" ? "on" : ""}" aria-label="Корзина">${I.bag}<span class="cart-btn__lbl">Корзина</span><span class="count" data-count></span></a>
         </div>
       </div></header>`);
     document.body.insertAdjacentHTML("beforeend", `
@@ -75,17 +81,11 @@
         <div class="foot__grid">
           <div><div class="logo" style="margin-bottom:12px">DA<span>·</span>BRO</div><p style="color:rgba(255,255,255,.6);max-width:34ch">Мужская одежда и обувь. Бутики в Астане и Уральске. Заказ через WhatsApp — менеджер подтвердит наличие и время.</p></div>
           <div><h4>Каталог</h4><ul><li><a href="catalog.html?cat=outerwear">Верхняя одежда</a></li><li><a href="catalog.html?cat=suits">Костюмы</a></li><li><a href="catalog.html?cat=shoes">Обувь</a></li><li><a href="catalog.html?sale=1">Скидки</a></li></ul></div>
-          <div><h4>Покупателям</h4><ul><li><a href="index.html#how">Как заказать</a></li><li><a href="index.html#stores">Бутики</a></li><li><a href="cart.html">Корзина</a></li></ul></div>
+          <div><h4>Покупателям</h4><ul><li><a href="index.html#how">Как заказать</a></li><li><a href="cart.html">Корзина</a></li></ul></div>
           <div><h4>Связь</h4><ul><li><a href="#" data-wa-general>WhatsApp</a></li><li><a href="#" onclick="return false">Instagram</a></li><li><a href="tel:+70000000000">+7 (000) 000-00-00</a></li></ul></div>
         </div>
         <div class="foot__base"><span>© 2026 DA BRO</span><span>Прототип: адреса, телефоны и фото — заглушки</span></div>
-      </div></footer>
-      <nav class="tabbar" aria-label="Нижнее меню"><div class="tabbar__in">
-        <a href="index.html" class="${page === "home" ? "on" : ""}">${I.home}Главная</a>
-        <a href="catalog.html" class="${["catalog", "product"].includes(page) ? "on" : ""}">${I.grid}Каталог</a>
-        <a href="index.html#stores">${I.store}Бутики</a>
-        <a href="cart.html" class="${["cart", "checkout"].includes(page) ? "on" : ""}">${I.bag}Корзина<span class="count" data-count></span></a>
-      </div></nav>`);
+      </div></footer>`);
   }
 
   function paintCounts(pop) {
@@ -192,6 +192,50 @@
     const i = Math.round(sl.scrollLeft / sl.clientWidth);
     sl.parentElement.querySelectorAll(".card__dots i").forEach((d, k) => d.classList.toggle("on", k === i));
   }, { capture: true, passive: true });
+
+  /* ---------------- custom select (enhances <div class="cselect"><select>) ---------------- */
+  function enhanceSelect(sel) {
+    const box = sel.parentElement, id = (sel.id || "cs" + Math.random().toString(36).slice(2, 7)) + "-list";
+    const label = sel.dataset.label;
+    box.insertAdjacentHTML("beforeend", `
+      <button type="button" class="cselect__btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}">
+        ${label ? `<span class="lbl">${esc(label)}:</span>` : ""}<span class="val"></span>${I.down}
+      </button>
+      <ul class="cselect__list" role="listbox" id="${id}" tabindex="-1" aria-label="${esc(sel.getAttribute("aria-label") || label || "")}">
+        ${[...sel.options].map((o, i) => `<li class="cselect__opt" role="option" id="${id}-${i}" aria-selected="false">${esc(o.text)}${I.check}</li>`).join("")}
+      </ul>`);
+    sel.tabIndex = -1; sel.setAttribute("aria-hidden", "true");
+    const btn = $(".cselect__btn", box), list = $(".cselect__list", box), opts = $$(".cselect__opt", box);
+    let active = sel.selectedIndex;
+    const paint = () => {
+      $(".val", btn).textContent = sel.options[sel.selectedIndex].text;
+      opts.forEach((o, i) => { o.setAttribute("aria-selected", i === sel.selectedIndex); o.classList.toggle("active", i === active); });
+      list.setAttribute("aria-activedescendant", opts[active].id);
+    };
+    const isOpen = () => box.classList.contains("open");
+    const open = () => { $$(".cselect.open").forEach(b => b !== box && b.classList.remove("open")); box.classList.add("open"); btn.setAttribute("aria-expanded", "true"); active = sel.selectedIndex; paint(); list.focus({ preventScroll: true }); };
+    const close = (focus = true) => { box.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); if (focus) btn.focus({ preventScroll: true }); };
+    const choose = i => { if (sel.selectedIndex !== i) { sel.selectedIndex = i; sel.dispatchEvent(new Event("change", { bubbles: true })); } paint(); close(); };
+    btn.addEventListener("click", () => isOpen() ? close() : open());
+    btn.addEventListener("keydown", e => { if (["ArrowDown", "ArrowUp", "Enter", " "].includes(e.key)) { e.preventDefault(); open(); } });
+    list.addEventListener("keydown", e => {
+      const n = opts.length;
+      if (e.key === "ArrowDown") { e.preventDefault(); active = (active + 1) % n; paint(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); active = (active - 1 + n) % n; paint(); }
+      else if (e.key === "Home") { e.preventDefault(); active = 0; paint(); }
+      else if (e.key === "End") { e.preventDefault(); active = n - 1; paint(); }
+      else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(active); }
+      else if (e.key === "Escape") { e.preventDefault(); close(); }
+      else if (e.key === "Tab") close(false);
+    });
+    opts.forEach((o, i) => {
+      o.addEventListener("mousemove", () => { if (active !== i) { active = i; paint(); } });
+      o.addEventListener("click", () => choose(i));
+    });
+    document.addEventListener("click", e => { if (isOpen() && !box.contains(e.target)) close(false); });
+    sel.addEventListener("change", paint);
+    paint();
+  }
 
   /* ---------------- reveal ---------------- */
   const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { threshold: .12 }) : null;
@@ -489,6 +533,7 @@
 
   /* ---------------- boot ---------------- */
   shell();
+  $$(".cselect > select").forEach(enhanceSelect);
   paintCounts();
   pages[page]?.();
   paintCity();

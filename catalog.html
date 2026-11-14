@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=6">
+  <link rel="stylesheet" href="css/styles.css?v=7">
 </head>
 <body data-page="catalog">
 <main>
@@ -27,16 +27,14 @@
           <input id="q" type="search" placeholder="Поиск: пальто, костюм…" autocomplete="off">
           <button type="button" id="q-clear" aria-label="Очистить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </label>
-        <label class="select">
-          <span class="sr">Сортировка</span>
-          <select id="sort">
+        <div class="cselect">
+          <select id="sort" aria-label="Сортировка" data-label="Сортировка">
             <option value="pop">Популярные</option>
-            <option value="new">Новинки</option>
-            <option value="asc">Дешевле</option>
-            <option value="desc">Дороже</option>
+            <option value="new">Сначала новинки</option>
+            <option value="asc">Сначала дешевле</option>
+            <option value="desc">Сначала дороже</option>
           </select>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </label>
+        </div>
       </div>
       <div class="chips-row" id="chips" role="toolbar" aria-label="Категории"></div>
     </div>
@@ -46,7 +44,7 @@
     <div class="grid" id="grid" aria-live="polite"></div>
   </div>
 </main>
-<script src="js/data.js?v=6"></script>
-<script src="js/app.js?v=6"></script>
+<script src="js/data.js?v=7"></script>
+<script src="js/app.js?v=7"></script>
 </body>
 </html>
