@@ -77,7 +77,7 @@
       if (e.target.closest("[data-gate-close]")) closeGate(g);
     });
     g.addEventListener("keydown", e => { if (e.key === "Escape" && closable) closeGate(g); });
-    setTimeout(() => $(".gate__city", g)?.focus({ preventScroll: true }), 400);
+    if (matchMedia("(pointer: fine)").matches) setTimeout(() => $(".gate__city", g)?.focus({ preventScroll: true }), 400);
   }
   function pick(k, btn, g) {
     city = k; store.set("dabro-city", k);
